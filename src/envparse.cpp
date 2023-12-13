@@ -83,6 +83,7 @@ void parser::Lexer::skip_comment()
 
         if (temp == '\n')
         {
+            this->source_line++;
             break;
         }
 

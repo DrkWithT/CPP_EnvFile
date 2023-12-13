@@ -14,4 +14,4 @@ This repository contains a toy envfile parser. It lacks value loading into envir
  - Run `project.zsh`. There should be a prompt for debug or optimized build. Choose which one you prefer.
  - Run `run_tests.zsh`. All of its _unit_ tests should pass, but there _may_ be a few extreme edge cases that I missed.
     - There are sample inputs in `testfiles` with a subset of dotenv file syntax.
- - Run `make clean_execs` to clean old executables. Object files remain in the `build` folder to speed up other compiling runs.
+ - Run `make clean_execs` to clean old executables. Object files remain in the `build` folder to speed up other compiling runs unless `make clean_all` is ran.
