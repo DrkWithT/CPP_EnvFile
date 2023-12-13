@@ -1,5 +1,5 @@
 # Makefile
-# Project: H2Plus Server (h2c server)
+# Project: C++ Envfile Parser
 # Derek Tan
 
 # compiler vars

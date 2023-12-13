@@ -19,4 +19,4 @@ do
     fi
 done
 
-echo -e "\n\033[0;32mAll tests ran: $pass_count passed, $fail_count failed.\033[0m"
+echo "\n\033[0;32mAll tests ran: $pass_count passed, $fail_count failed.\033[0m"
