@@ -15,4 +15,4 @@ else
 fi
 
 # do custom build: either a debug or optimized build
-make DEBUG_BUILD=$debug_flag all && echo -e "\033[0;32mBuild succeeded!\033[0m" || echo -e "\033[0;31mBuild failed!\033[0m"
+make DEBUG_BUILD=$debug_flag all && echo "\033[0;32mBuild succeeded!\033[0m" || echo "\033[0;31mBuild failed!\033[0m"
