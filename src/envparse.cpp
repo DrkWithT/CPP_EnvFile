@@ -135,7 +135,6 @@ parser::Token parser::Lexer::lex_identifier()
 
 parser::Token parser::Lexer::lex_single(parser::TokenType type)
 {
-    char temp = '\0';
     uint32_t temp_start = this->source_pos;
     uint32_t temp_span = 1U;
 
@@ -191,7 +190,7 @@ parser::Token parser::Lexer::lex_string()
     return (Token){.begin = temp_start, .length = temp_span, .type = env_string};
 }
 
-parser::Token parser::Lexer::lex_next(const char* source)
+parser::Token parser::Lexer::lex_next()
 {
     char pre_temp = this->source_ptr[this->source_pos];
 
@@ -215,7 +214,7 @@ parser::Token parser::Lexer::lex_next(const char* source)
 /* Parse Impl. */
 
 parser::Parser::Parser(const char* file_name_cstr, char* file_source_cstr)
-: file_name {file_name_cstr}, buffer_ptr {file_source_cstr}, lexer {buffer_ptr.get()}
+: buffer_ptr {file_source_cstr}, lexer {buffer_ptr.get()}, file_name {file_name_cstr }
 {}
 
 [[nodiscard]] bool parser::Parser::parse_decl(collections::EnvFileDocument& doc)
@@ -223,14 +222,14 @@ parser::Parser::Parser(const char* file_name_cstr, char* file_source_cstr)
     /// @todo Follow grammar rule:
     /// IDENTIFIER BINDER (STRING | NUMBER)
 
-    Token identifier_token = this->lexer.lex_next(this->buffer_ptr.get());
+    Token identifier_token = this->lexer.lex_next();
 
     if (identifier_token.type != env_identifier)
     {
         return false;
     }
 
-    Token literal_token = this->lexer.lex_next(this->buffer_ptr.get());
+    Token literal_token = this->lexer.lex_next();
     std::string temp_name {};
     std::string temp_literal {};
     

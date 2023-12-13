@@ -85,15 +85,15 @@ namespace parser
          * @param source 
          * @return Token 
          */
-        Token lex_next(const char* source);
+        Token lex_next();
     };
 
     class Parser
     {
     private:
+        std::unique_ptr<char> buffer_ptr;
         Lexer lexer;
         std::string file_name;
-        std::unique_ptr<char> buffer_ptr;
 
         [[nodiscard]] bool parse_decl(collections::EnvFileDocument& doc);
 
