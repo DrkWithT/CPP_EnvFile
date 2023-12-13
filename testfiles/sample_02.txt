@@ -1,0 +1,5 @@
+foo = 110 # comment 1
+
+bar = 120
+
+baz = 230 # comment 2
