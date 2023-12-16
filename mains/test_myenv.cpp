@@ -1,14 +1,14 @@
 /**
  * @file test_myenv.cpp
  * @author Derek Tan
- * @brief Contains simple unit test for `parser::Parser` against `sample_04.txt`.
+ * @brief Contains simple unit test for `parser::Parser` against `sample_04.txt`. Tests if the parsed object from the document has required fields.
  * @date 2023-12-14
  */
 
 #include "interface/myenv.hpp"
 #include <iostream>
 
-constexpr char* sample_04_file_path = "./testfiles/sample_04.txt"
+constexpr const char* sample_04_file_path = "./testfiles/sample_04.txt"
 "./testfiles/sample_04.txt";
 
 int main()
