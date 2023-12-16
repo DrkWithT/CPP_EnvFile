@@ -34,9 +34,10 @@ namespace parser
 
     enum ParseStatus : uint8_t
     {
-        env_parse_ok,       // OK
-        env_parse_bad_decl, // bad decl syntax
-        env_parse_bad_empty // file empty
+        env_parse_ok,         // OK
+        env_parse_bad_decl,   // bad decl syntax
+        env_parse_bad_empty,  // file empty
+        env_parse_bad_unknown // for uncategorized error
     };
 
     struct ParseDump
