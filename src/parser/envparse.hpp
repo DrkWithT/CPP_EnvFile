@@ -34,9 +34,10 @@ namespace parser
 
     enum ParseStatus : uint8_t
     {
-        env_parse_ok,       // OK
-        env_parse_bad_decl, // bad decl syntax
-        env_parse_bad_empty // file empty
+        env_parse_ok,         // OK
+        env_parse_bad_decl,   // bad decl syntax
+        env_parse_bad_empty,  // file empty
+        env_parse_bad_unknown // for uncategorized error
     };
 
     struct ParseDump
@@ -85,15 +86,15 @@ namespace parser
          * @param source 
          * @return Token 
          */
-        Token lex_next(const char* source);
+        Token lex_next();
     };
 
     class Parser
     {
     private:
+        std::unique_ptr<char> buffer_ptr;
         Lexer lexer;
         std::string file_name;
-        std::unique_ptr<char> buffer_ptr;
 
         [[nodiscard]] bool parse_decl(collections::EnvFileDocument& doc);
 
