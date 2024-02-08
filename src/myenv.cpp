@@ -32,10 +32,5 @@ const char* myenv_messages[] {
         std::cerr << e.what() << '\n';
     }
 
-    if (loaded_contents != nullptr)
-    {
-        delete[] loaded_contents;
-    }
-
     return parse_status;
 }
