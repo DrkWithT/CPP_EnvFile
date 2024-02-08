@@ -6,9 +6,10 @@
  * @date 2023-12-14
  */
 
+#include <iostream>
 #include "interface/myenv.hpp"
 
-const char* myenv_messages[4U] {
+const char* myenv_messages[] {
     "Parsed OK.",
     "Parse failed: found bad decl.",
     "Parse failed: found empty source.",
@@ -22,16 +23,18 @@ const char* myenv_messages[4U] {
 
     try
     {
-        parser::Parser envparser {file_path.c_str(), loaded_contents};
+        parser::Parser envparser {file_path.c_str(), loaded_contents}; // Throws on nullptr buffer to fail fast so I can minimize wrong code behavior.
 
         parse_status = envparser.parse_all(document);
     }
     catch(const std::exception& e)
     {
-        if (loaded_contents != nullptr)
-        {
-            delete[] loaded_contents;
-        }
+        std::cerr << e.what() << '\n';
+    }
+
+    if (loaded_contents != nullptr)
+    {
+        delete[] loaded_contents;
     }
 
     return parse_status;

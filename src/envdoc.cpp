@@ -12,13 +12,13 @@
 collections::EnvFileEntry::EnvFileEntry()
 : name {}, literal {}
 {
-    this->lexical_type = collections::EnvLexicalType::env_lexical_type_nil;
+    lexical_type = collections::EnvLexicalType::env_lexical_type_nil;
 }
 
 collections::EnvFileEntry::EnvFileEntry(const std::string& name, const std::string& literal, collections::EnvLexicalType type)
 : name {name}, literal {literal}
 {
-    this->lexical_type = type;
+    lexical_type = type;
 }
 
 collections::EnvFileEntry::EnvFileEntry(const collections::EnvFileEntry& other)
@@ -28,9 +28,9 @@ collections::EnvFileEntry::EnvFileEntry(const collections::EnvFileEntry& other)
         return;
     }
 
-    this->name = other.name;
-    this->literal = other.literal;
-    this->lexical_type = other.lexical_type;
+    name = other.name;
+    literal = other.literal;
+    lexical_type = other.lexical_type;
 }
 
 collections::EnvFileEntry& collections::EnvFileEntry::operator=(const collections::EnvFileEntry& other)
@@ -40,18 +40,18 @@ collections::EnvFileEntry& collections::EnvFileEntry::operator=(const collection
         return *this;
     }
 
-    this->name = other.name;
-    this->literal = other.literal;
-    this->lexical_type = other.lexical_type;
+    name = other.name;
+    literal = other.literal;
+    lexical_type = other.lexical_type;
 
     return *this;
 }
 
 bool collections::EnvFileEntry::operator==(const collections::EnvFileEntry& other) const
 {
-    return this->name == other.name
-        && this->literal == other.literal
-        && this->lexical_type == other.lexical_type;
+    return name == other.name
+        && literal == other.literal
+        && lexical_type == other.lexical_type;
 }
 
 /* EnvFileDocument Impl. */
@@ -62,17 +62,17 @@ collections::EnvFileDocument::EnvFileDocument(const char* name_cstr)
 
 const std::map<std::string, collections::EnvFileEntry>& collections::EnvFileDocument::view_entries() const
 {
-    return this->entries;
+    return entries;
 }
 
 const std::string& collections::EnvFileDocument::view_name() const
 {
-    return this->name;
+    return name;
 }
 
 [[nodiscard]] bool collections::EnvFileDocument::has_entry(const std::string& key) const
 {
-    return this->entries.find(key) != this->entries.end();
+    return entries.find(key) != entries.end();
 }
 
 const collections::EnvFileEntry& collections::EnvFileDocument::get_entry(const std::string& key) const
@@ -82,7 +82,7 @@ const collections::EnvFileEntry& collections::EnvFileDocument::get_entry(const s
         throw std::invalid_argument("Entry does not exist!");
     }
 
-    return this->entries.at(key);
+    return entries.at(key);
 }
 
 void collections::EnvFileDocument::set_entry(const std::string& key, const std::string& literal, EnvLexicalType type)

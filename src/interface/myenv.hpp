@@ -4,7 +4,7 @@
 #include "parser/envparse.hpp"
 #include "parser/fileread.hpp"
 
-/// @brief Corresponding status messages for `parser::ParseDump::status`
+/// @brief Corresponding status messages for `parser::ParseDump::status`. I keep this here so that test_myend.cpp can use the message array.
 extern const char* myenv_messages[4U];
 
 /**

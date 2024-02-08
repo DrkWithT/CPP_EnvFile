@@ -2,9 +2,9 @@
  * @file envparse.cpp
  * @author Derek Tan
  * @brief Implements parser for environment secret files with simple .env syntax .
- * @note Does not support boolean literals!
- * @todo Refactor lexing code to accept character -> bool lambdas as the token checking predicates.
- * @date 2023-12-12
+ * @todo Support booleans!
+ * @date 2023-12-12 First draft.
+ * @date 2023-02-07 Slight refactor, removed unneeded "this->".
  */
 
 #include "parser/envparse.hpp"
@@ -38,7 +38,7 @@
     buffer_str.clear();
 
     size_t begin = static_cast<size_t>(token.begin);
-    size_t end = static_cast<size_t>(token.begin + token.length - 1UL);
+    size_t end = static_cast<size_t>(token.begin + token.length - 1U);
 
     for (size_t source_i = begin; source_i <= end; source_i++)
     {
@@ -58,36 +58,36 @@ parser::Lexer::Lexer(const char* source_ptr)
     }
 
     this->source_ptr = source_ptr;
-    this->source_length = std::strlen(source_ptr);
-    this->source_pos = 0U;
-    this->source_line = 1U;
+    source_length = std::strlen(source_ptr);
+    source_pos = 0U;
+    source_line = 1U;
 }
 
 constexpr bool parser::Lexer::has_ended() const
 {
-    return this->source_pos >= this->source_length;
+    return source_pos >= source_length;
 }
 
 constexpr uint32_t parser::Lexer::tell_line() const
 {
-    return this->source_line;
+    return source_line;
 }
 
 void parser::Lexer::skip_comment()
 {
     char temp = '\0';
 
-    while (this->source_pos < this->source_length)
+    while (source_pos < source_length)
     {
-        temp = source_ptr[this->source_pos];
+        temp = source_ptr[source_pos];
 
         if (temp == '\n')
         {
-            this->source_line++;
+            source_line++;
             break;
         }
 
-        this->source_pos++;
+        source_pos++;
     }
 }
 
@@ -95,38 +95,38 @@ void parser::Lexer::skip_whitespace()
 {
     char temp = '\0';
 
-    while (this->source_pos < this->source_length)
+    while (source_pos < source_length)
     {
-        temp = this->source_ptr[this->source_pos];
+        temp = source_ptr[source_pos];
 
-        if (temp == '\n') this->source_line++;
+        if (temp == '\n') source_line++;
 
         if (!parser::utils::is_whitespace(temp))
         {
             break;
         }
 
-        this->source_pos++;
+        source_pos++;
     }
 }
 
 parser::Token parser::Lexer::lex_identifier()
 {
     char temp = '\0';
-    uint32_t temp_start = this->source_pos;
+    uint32_t temp_start = source_pos;
     uint32_t temp_span = 0U;
 
-    while (this->source_pos < this->source_length)
+    while (source_pos < source_length)
     {
 
-        temp = this->source_ptr[this->source_pos];
+        temp = source_ptr[source_pos];
 
         if (!parser::utils::is_alpha(temp))
         {
             break;
         }
 
-        this->source_pos++;
+        source_pos++;
         temp_span++;
     }
 
@@ -135,10 +135,10 @@ parser::Token parser::Lexer::lex_identifier()
 
 parser::Token parser::Lexer::lex_single(parser::TokenType type)
 {
-    uint32_t temp_start = this->source_pos;
+    uint32_t temp_start = source_pos;
     uint32_t temp_span = 1U;
 
-    this->source_pos++;
+    source_pos++;
 
     return (Token){.begin = temp_start, .length = temp_span, .type = type};
 }
@@ -146,19 +146,19 @@ parser::Token parser::Lexer::lex_single(parser::TokenType type)
 parser::Token parser::Lexer::lex_number()
 {
     char temp = '\0';
-    uint32_t temp_start = this->source_pos;
+    uint32_t temp_start = source_pos;
     uint32_t temp_span = 1U;
 
-    while (this->source_pos < this->source_length)
+    while (source_pos < source_length)
     {
-        temp = this->source_ptr[this->source_pos];
+        temp = source_ptr[source_pos];
 
         if (!parser::utils::is_digit(temp))
         {
             break;
         }
 
-        this->source_pos++;
+        source_pos++;
         temp_span++;
     }
 
@@ -167,23 +167,23 @@ parser::Token parser::Lexer::lex_number()
 
 parser::Token parser::Lexer::lex_string()
 {
-    this->source_pos++; // do this to skip leading double quote!
+    source_pos++; // do this to skip leading double quote!
 
     char temp = '\0';
-    uint32_t temp_start = this->source_pos;
+    uint32_t temp_start = source_pos;
     uint32_t temp_span = 1U;
 
-    while (this->source_pos < this->source_length)
+    while (source_pos < source_length)
     {
-        temp = this->source_ptr[this->source_pos];
+        temp = source_ptr[source_pos];
 
         if (temp == '\"')
         {
-            this->source_pos++;
+            source_pos++;
             break;
         }
 
-        this->source_pos++;
+        source_pos++;
         temp_span++;
     }
 
@@ -192,23 +192,31 @@ parser::Token parser::Lexer::lex_string()
 
 parser::Token parser::Lexer::lex_next()
 {
-    char pre_temp = this->source_ptr[this->source_pos];
+    char pre_temp = source_ptr[source_pos];
 
-    if (pre_temp == '\0' || this->source_pos >= this->source_length)
+    if (pre_temp == '\0' || source_pos >= source_length)
     {
-        return (Token){.begin = this->source_pos, .length = 0U, .type = env_eof};
+        return (Token){.begin = source_pos, .length = 0U, .type = env_eof};
     }
 
-    // First... skip any leftover whitespace or comments to find the next lexeme.
-    if (parser::utils::is_whitespace(pre_temp)) skip_whitespace();
-    if (pre_temp == '#') skip_comment();
+    // First... skip any leftover whitespace or comments to find the next token.
+    if (parser::utils::is_whitespace(pre_temp))
+        skip_whitespace();
+    if (pre_temp == '#')
+        skip_comment();
 
-    if (parser::utils::is_alpha(pre_temp)) return lex_identifier();
-    else if (pre_temp == '=') return lex_single(parser::env_binder);
-    else if (parser::utils::is_digit(pre_temp)) return lex_number();
-    else if (pre_temp == '\"') return lex_string();
+    // As soon as the next token is reached, it must be scanned.
+    if (parser::utils::is_alpha(pre_temp))
+        return lex_identifier();
+    else if (pre_temp == '=')
+        return lex_single(parser::env_binder);
+    else if (parser::utils::is_digit(pre_temp))
+        return lex_number();
+    else if (pre_temp == '\"')
+        return lex_string();
 
-    return (Token){.begin = this->source_pos, .length = 1U, .type = env_unknown};
+    // All valid types of tokens have been exhausted, so the unknown tokens are left behind.
+    return (Token){.begin = source_pos, .length = 1U, .type = env_unknown};
 }
 
 /* Parse Impl. */
@@ -219,21 +227,20 @@ parser::Parser::Parser(const char* file_name_cstr, char* file_source_cstr)
 
 [[nodiscard]] bool parser::Parser::parse_decl(collections::EnvFileDocument& doc)
 {
-    /// @todo Follow grammar rule:
-    /// IDENTIFIER BINDER (STRING | NUMBER)
+    /// Follow grammar rule: IDENTIFIER BINDER (STRING | NUMBER)
 
-    Token identifier_token = this->lexer.lex_next();
+    Token identifier_token = lexer.lex_next();
 
     if (identifier_token.type != env_identifier)
     {
         return false;
     }
 
-    Token literal_token = this->lexer.lex_next();
+    Token literal_token = lexer.lex_next();
     std::string temp_name {};
     std::string temp_literal {};
     
-    if (!token_as_text(temp_name, this->buffer_ptr.get(), identifier_token) || !token_as_text(temp_literal, this->buffer_ptr.get(), literal_token))
+    if (!token_as_text(temp_name, buffer_ptr.get(), identifier_token) || !token_as_text(temp_literal, buffer_ptr.get(), literal_token))
     {
         return false;
     }
@@ -248,7 +255,7 @@ parser::Parser::Parser(const char* file_name_cstr, char* file_source_cstr)
     }
     else
     {
-        /// @note I forbid syntax like bar = foo or bar = = for simplicity.
+        /// @note When control flow reaches here, I forbid syntax like bar = foo or bar = = for simplicity.
         return false;
     }
 
@@ -260,13 +267,14 @@ parser::Parser::Parser(const char* file_name_cstr, char* file_source_cstr)
     /// @note This loop is empty because parse_decl returns a stopping false on an EOF or invalid .env declaration statement. Thus, no extra iterative work applies.
     while (parse_decl(doc));
 
-    uint32_t final_line = this->lexer.tell_line();
+    uint32_t final_line = lexer.tell_line();
 
+    // Parse errors count iff not all field lines were successfully processed.
     if (final_line < 1U)
     {
         return (ParseDump){.line = final_line, .status = env_parse_bad_empty};
     }
-    else if (!this->lexer.has_ended())
+    else if (!lexer.has_ended())
     {
         return (ParseDump){.line = final_line, .status = env_parse_bad_decl};
     }
