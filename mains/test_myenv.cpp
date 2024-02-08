@@ -23,25 +23,25 @@ int main()
 
     if (status_info.status != parser::env_parse_ok)
     {
-        std::cerr << __FILE__ << ": " << myenv_messages[status_info.status];
+        std::cerr << myenv_messages[status_info.status];
         return 1;
     }
 
     if (env_sample_4.get_entry(field_name_1).literal != "123")
     {
-        std::cerr << __FILE__ << ": Invalid literal of field 1.\n";
+        std::cerr << "Invalid literal of field 1.\n";
         return 1;
     }
 
     if (env_sample_4.get_entry(field_name_2).literal != "test")
     {
-        std::cerr << __FILE__ << ": Invalid literal of field 2.\n";
+        std::cerr << "Invalid literal of field 2.\n";
         return 1;
     }
 
     if (env_sample_4.get_entry(field_name_3).lexical_type != collections::env_lexical_type_nil)
     {
-        std::cerr << __FILE__ << ": Incorrect type of field 3, expected nil.\n";
+        std::cerr << "Incorrect type of field 3, expected nil.\n";
         return 1;
     }
 
