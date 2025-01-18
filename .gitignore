@@ -1,7 +1,8 @@
-bin/
-build/
-.vscode/
 .DS_Store
+.cache
+.git
+.vscode
+build/
 
-*.a
-*.o
+CMakeUserPresets.json
+compile_commands.json
