@@ -1,3 +1,7 @@
 #pragma once
 
-// todo
+#include "models/envdoc.hpp"
+
+namespace CPPEnvFile::Api {
+    [[nodiscard]] Models::Document parseEnv(const std::string& path);
+}
