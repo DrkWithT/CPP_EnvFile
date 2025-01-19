@@ -24,15 +24,20 @@ int main(int argc, char* argv[]) {
         auto doc = CPPEnvFile::Api::parseEnv(argv[2]);
 
         if (not doc.hasEntry("foo")) {
+            std::cout << std::format("unexpected absence of property {}\n", "foo");
             return 1;
         }
 
         if (not doc.hasEntry("bar")) {
+            std::cout << std::format("unexpected absence of property {}\n", "bar");
             return 1;
         }
 
         if (auto baz_value = std::get<std::string>(doc.viewEntry("baz").data); baz_value != "123") {
+            std::cout << std::format("unexpected value of property {}: '{}'\n", "baz", baz_value);
             return 1;
         }
     }
+
+    std::cout << std::format("test_envparse '{}': PASS\n", argv[2]);
 }
