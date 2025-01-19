@@ -5,7 +5,7 @@
 
 namespace CPPEnvFile::Parser {
     Parser::Parser(const std::string& path)
-    : m_line_reader {path}, m_lexer {}, m_current {.type = TokenType::eof}, m_previous {.type = TokenType::eof} {}
+    : m_line_reader {path}, m_lexer {}, m_current {0U, 0U, 1U, TokenType::eof}, m_previous {0U, 0U, 1U, TokenType::eof} {}
 
     Models::Document Parser::parseGiven() {
         Models::Document doc;
@@ -20,8 +20,8 @@ namespace CPPEnvFile::Parser {
             auto temp_line = line_opt.value();
 
             m_lexer.reset(temp_line);
-            m_previous = {.type = TokenType::eof};
-            m_current = {.type = TokenType::eof};
+            m_previous = {0U, 0U, 1U, TokenType::eof};
+            m_current = {0U, 0U, 1U, TokenType::eof};
             consume();
 
             auto [secret_name, secret_value] = parseLine(temp_line);
