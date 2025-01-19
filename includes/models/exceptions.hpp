@@ -4,7 +4,7 @@
 #include <string>
 
 namespace CPPEnvFile::Parser {
-    class Token;
+    struct Token;
 }
 
 namespace CPPEnvFile::Models {

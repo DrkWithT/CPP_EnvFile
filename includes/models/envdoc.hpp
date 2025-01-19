@@ -49,7 +49,9 @@ namespace CPPEnvFile::Models
             using BareT = Helpers::strip_type_of<T>;
 
             if constexpr (std::is_same_v<BareT, std::string>) {
-                m_entries[key] = item;
+                m_entries[key] = {
+                    .data = item
+                };
                 return;
             }
 

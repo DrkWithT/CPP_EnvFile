@@ -58,6 +58,29 @@ namespace CPPEnvFile::Parser {
         };
     }
 
+    Token Lexer::lexComment() {
+        auto begin = m_pos++;
+        auto length = 0U;
+
+        while (not atEOF()) {
+            auto c = m_src[m_pos];
+
+            if (c == '\n') {
+                break;
+            }
+
+            m_pos++;
+            length++;
+        }
+
+        return {
+            begin,
+            length,
+            m_line,
+            TokenType::comment
+        };
+    }
+
     Token Lexer::lexSpacing() {
         auto begin = m_pos;
         auto length = 0U;
@@ -116,7 +139,7 @@ namespace CPPEnvFile::Parser {
         while (not atEOF()) {
             auto c = m_src[m_pos];
 
-            if (not Helpers::matchTexty(c) and c == '\"') {
+            if (c == '\"') {
                 m_pos++;
                 closed = true;
                 break;
