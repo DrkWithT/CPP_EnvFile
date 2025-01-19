@@ -1,9 +1,9 @@
 #pragma once
 
-#include "parser/lexicals.hpp"
+#include "parsing/lexicals.hpp"
 #include <cctype>
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     namespace Helpers {
         [[nodiscard]] constexpr bool matchSpacing(char c) {
             return std::isspace(c);

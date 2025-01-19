@@ -1,6 +1,6 @@
-#include "parser/lexicals.hpp"
+#include "parsing/lexicals.hpp"
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     std::string stringify(const Token &token, const std::string &source) {
         if (token.type == TokenType::spacing or token.type == TokenType::eof) {
             return "";

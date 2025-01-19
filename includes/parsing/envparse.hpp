@@ -1,12 +1,11 @@
 #pragma once
 
-#include "parser/fileread.hpp"
-#include "parser/lexicals.hpp"
-#include "parser/lexer.hpp"
-#include "models/exceptions.hpp"
+#include "parsing/fileread.hpp"
+#include "parsing/lexicals.hpp"
+#include "parsing/lexer.hpp"
 #include "models/envdoc.hpp"
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     class Parser {
     public:
         enum class TokenOpt {

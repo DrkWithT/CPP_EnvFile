@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     enum class TokenType {
         spacing,
         comment,

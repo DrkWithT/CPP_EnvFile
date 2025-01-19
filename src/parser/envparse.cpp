@@ -1,9 +1,9 @@
 #include <utility>
-#include "parser/envparse.hpp"
+#include "parsing/envparse.hpp"
 #include "models/exceptions.hpp"
-#include "parser/lexicals.hpp"
+#include "parsing/lexicals.hpp"
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     Parser::Parser(const std::string& path)
     : m_line_reader {path}, m_lexer {}, m_current {0U, 0U, 1U, TokenType::eof}, m_previous {0U, 0U, 1U, TokenType::eof} {}
 

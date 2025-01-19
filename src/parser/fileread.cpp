@@ -1,6 +1,6 @@
-#include "parser/fileread.hpp"
+#include "parsing/fileread.hpp"
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     LineReader::LineReader(const std::string& file_path)
     : m_reader {file_path} {}
 

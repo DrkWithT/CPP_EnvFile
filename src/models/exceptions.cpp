@@ -1,10 +1,10 @@
 #include <format>
-#include "parser/lexicals.hpp"
+#include "parsing/lexicals.hpp"
 #include "models/exceptions.hpp"
 
 namespace CPPEnvFile::Models {
-    EnvParseError::EnvParseError(const Parser::Token& suspect, const std::string& src, const std::string& msg)
-    : m_full_msg {std::format("Parsed suspect token: '{}', {}\n", Parser::stringify(suspect, src), msg)} {}
+    EnvParseError::EnvParseError(const Parsing::Token& suspect, const std::string& src, const std::string& msg)
+    : m_full_msg {std::format("Parsed suspect token: '{}', {}\n", Parsing::stringify(suspect, src), msg)} {}
 
     const char* EnvParseError::what() const noexcept {
         return m_full_msg.c_str();

@@ -1,6 +1,6 @@
-#include "parser/lexer.hpp"
+#include "parsing/lexer.hpp"
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     Lexer::Lexer()
     : m_src {}, m_pos {0U}, m_end {0U}, m_line {1U} {}
 

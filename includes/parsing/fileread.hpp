@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-namespace CPPEnvFile::Parser {
+namespace CPPEnvFile::Parsing {
     class LineReader {
     public:
         LineReader(const std::string& file_path);
