@@ -1,0 +1,21 @@
+name: My Testing
+
+on:
+    pull_request:
+        types: [opened, synchronize]
+
+jobs:
+    My-Workflow:
+        name: CPP EnvFile action
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v4
+            - name: Setup project
+              run: "chmod +x ./utility.sh && chmod +x ./test_helper.sh"
+              env:
+                CXX: "g++"
+            - name: Build project
+              run: "./utility.sh build linux-build 0"
+            - name: Test project
+              run: "./utility.sh test"
