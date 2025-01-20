@@ -14,7 +14,7 @@ elif [[ "$choice" = "build" && $# -eq 3 ]]; then
         cp ./build/compile_commands.json .
     fi
 elif [[ "$choice" = "test" ]]; then
-    exec ./test_helper.sh 3 ./testfiles/sample_03.txt
+    exec ./testrun_execs.sh 3 ./testfiles/sample_03.txt;
 else
     echo "Usage: ./utility.sh [help | build <preset> <compile-cmds-json-flag>(0/1) | test]";
     exit 1

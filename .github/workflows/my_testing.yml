@@ -12,7 +12,7 @@ jobs:
             - name: Checkout project
               uses: actions/checkout@v4
             - name: Setup project
-              run: "chmod +x ./utility.sh && chmod +x ./test_helper.sh"
+              run: "chmod +x ./utility.sh && chmod +x ./testrun_execs.sh"
               env:
                 CXX: "g++"
             - name: Build project
