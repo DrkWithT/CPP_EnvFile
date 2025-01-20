@@ -5,6 +5,10 @@ namespace CPPEnvFile::Models {
     Document::Document()
     : m_entries {} {}
 
+    const std::map<std::string, EnvFileEntry>& Document::viewEntryMap() const {
+        return m_entries;
+    }
+
     bool Document::hasEntry(const std::string& key) const {
         return m_entries.contains(key);
     }
