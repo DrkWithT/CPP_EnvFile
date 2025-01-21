@@ -39,5 +39,5 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::cout << std::format("test_envparse '{}': PASS\n", argv[2]);
+    std::cout << "PASS\n";
 }

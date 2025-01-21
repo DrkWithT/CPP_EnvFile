@@ -41,6 +41,8 @@ namespace CPPEnvFile::Models
     public:
         Document();
 
+        const std::map<std::string, EnvFileEntry>& viewEntryMap() const;
+
         [[nodiscard]] bool hasEntry(const std::string& key) const;
         const EnvFileEntry& viewEntry(const std::string& key) const;
 
